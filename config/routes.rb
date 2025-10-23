@@ -8,4 +8,12 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+
+  resources :chats, only: %i[index show create]
+  # Chats resources will be used by:
+  # 1 - INDEX via the homepage (logged-in)
+  #   if not logged in, the user only sees the homepage (pages#home) without their chat history
+  #   if logged in, the user sees their previous chats by calling chats#index
+  # 2 - CREATE via the form on the homepage when the user clicks on "submit". No need of NEW, because there is no dedicated page for the form
+  # 3- SHOW via the chat screen to display a specific chat
 end
