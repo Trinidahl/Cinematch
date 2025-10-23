@@ -8,9 +8,14 @@ class MoviesController < ApplicationController
     @movie.save
   end
 
+  def index
+    @chat = Chat.find(params[:chat_id])
+    @movies = Movie.where(chat: @chat)
+  end
+
   private
 
   def movie_params
-    params.require(:movie).permit(:title, :year, :director, :country, :description, :rank, :url, :unchosen, :system_prompt)
+    params.require(:movie).permit(:title, :year, :director, :genre, :country, :description, :rank, :url, :unchosen, :system_prompt)
   end
 end
