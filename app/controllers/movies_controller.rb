@@ -9,8 +9,7 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @chat = Chat.find(params[:chat_id])
-    @movies = Movie.where(chat: @chat)
+    @movies = Movie.all
   end
 
   private
