@@ -1,2 +1,16 @@
-<h1>Welcome to Cinematch</h1>
-<p>Stop wasting time to find your movie</p>
+
+<div class="container text-center my-5">
+  <h1 class="display-4 mb-4">Welcome to <strong>Cinématch</strong></h1>
+
+  <p class="lead mb-5">
+    Spend your time to watch a movie, and not searching for one. Match with your next watch
+  </p>
+  <div class="d-flex justify-content-center gap-3">
+    <% if user_signed_in? %>
+    <p>To put previous search and load form</p>
+    <% else %>
+      <%= link_to "Sign In", new_user_session_path, class: "btn btn-outline-primary btn-lg" %>
+      <%= link_to "Sign Up", new_user_registration_path, class: "btn btn-primary btn-lg" %>
+    <% end %>
+  </div>
+</div>

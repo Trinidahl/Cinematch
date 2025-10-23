@@ -8,9 +8,11 @@
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+     <%= render "shared/navbar" %>
   </head>
 
   <body>
-    <%= yield %>
+      <%= render "shared/flashes" %>
+     <%= yield %>
   </body>
 </html>
