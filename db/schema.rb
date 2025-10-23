@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_10_22_184513) do
+ActiveRecord::Schema[7.1].define(version: 2025_10_23_191002) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -21,4 +21,30 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_22_184513) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "movies", force: :cascade do |t|
+    t.string "title"
+    t.integer "year"
+    t.string "director"
+    t.string "genre"
+    t.string "country"
+    t.text "description"
+    t.integer "rank"
+    t.string "url"
+    t.string "system_prompt"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "recommendations", force: :cascade do |t|
+    t.boolean "unchosen"
+    t.bigint "chat_id", null: false
+    t.bigint "movie_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chat_id"], name: "index_recommendations_on_chat_id"
+    t.index ["movie_id"], name: "index_recommendations_on_movie_id"
+  end
+
+  add_foreign_key "recommendations", "chats"
+  add_foreign_key "recommendations", "movies"
 end
