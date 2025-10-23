@@ -28,7 +28,6 @@ Movie.create!([
     description: "Un voleur qui s'infiltre dans les rêves pour voler des secrets doit accomplir l'impossible : implanter une idée.",
     rank: 1,
     url: "https://www.imdb.com/title/tt1375666/",
-    unchosen: false,
     system_prompt: "Film sur la manipulation des rêves et la perception de la réalité."
   },
   {
@@ -40,7 +39,6 @@ Movie.create!([
     description: "Une famille pauvre s'infiltre peu à peu dans la vie d'une famille riche, jusqu'à ce que tout déraille.",
     rank: 2,
     url: "https://www.imdb.com/title/tt6751668/",
-    unchosen: false,
     system_prompt: "Film sur la lutte des classes et la satire sociale."
   },
   {
@@ -52,7 +50,6 @@ Movie.create!([
     description: "La saga d'une puissante famille mafieuse et de son héritier réticent.",
     rank: 3,
     url: "https://www.imdb.com/title/tt0068646/",
-    unchosen: false,
     system_prompt: "Film sur le pouvoir, la loyauté et la corruption."
   },
   {
@@ -64,7 +61,6 @@ Movie.create!([
     description: "Une jeune femme à l’imagination débordante décide de changer la vie des gens qui l’entourent.",
     rank: 4,
     url: "https://www.imdb.com/title/tt0211915/",
-    unchosen: false,
     system_prompt: "Film poétique sur la bonté et la découverte de soi."
   },
   {
@@ -76,7 +72,6 @@ Movie.create!([
     description: "Une fillette se retrouve dans un monde magique où les esprits dominent et doit sauver ses parents transformés en porcs.",
     rank: 5,
     url: "https://www.imdb.com/title/tt0245429/",
-    unchosen: false,
     system_prompt: "Film d'animation fantastique sur la croissance et le courage."
   },
   {
@@ -88,7 +83,6 @@ Movie.create!([
     description: "Des histoires entrecroisées de criminels à Los Angeles, mêlant humour noir et violence stylisée.",
     rank: 6,
     url: "https://www.imdb.com/title/tt0110912/",
-    unchosen: false,
     system_prompt: "Film sur la moralité et le destin dans un monde chaotique."
   },
   {
@@ -100,7 +94,6 @@ Movie.create!([
     description: "Batman affronte le Joker, un criminel anarchique qui cherche à semer le chaos à Gotham.",
     rank: 7,
     url: "https://www.imdb.com/title/tt0468569/",
-    unchosen: false,
     system_prompt: "Film sur la dualité entre justice et chaos."
   },
   {
@@ -112,7 +105,6 @@ Movie.create!([
     description: "Un père utilise l’humour pour protéger son fils de l’horreur des camps de concentration.",
     rank: 8,
     url: "https://www.imdb.com/title/tt0118799/",
-    unchosen: false,
     system_prompt: "Film émouvant sur l'amour paternel et la résilience."
   },
   {
@@ -124,7 +116,6 @@ Movie.create!([
     description: "Une équipe d’astronautes voyage à travers un trou de ver pour sauver l’humanité.",
     rank: 9,
     url: "https://www.imdb.com/title/tt0816692/",
-    unchosen: false,
     system_prompt: "Film sur le temps, l’amour et la survie de l’espèce humaine."
   },
   {
@@ -136,7 +127,6 @@ Movie.create!([
     description: "L’histoire de jeunes dans les favelas de Rio, entre violence et espoir.",
     rank: 10,
     url: "https://www.imdb.com/title/tt0317248/",
-    unchosen: false,
     system_prompt: "Film sur la violence urbaine et la destinée dans les quartiers défavorisés."
   }
 ])
