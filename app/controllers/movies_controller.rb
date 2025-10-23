@@ -5,11 +5,12 @@ class MoviesController < ApplicationController
 
   def create
     @movie = Movie.new(movie_params)
+    @chat.movie = @movie
     @movie.save
   end
 
-  def index
-    @movies = Movie.all
+  def show
+    @movie = Movie.find(params[:id])
   end
 
   private
