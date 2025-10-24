@@ -12,7 +12,7 @@ Rails.application.routes.draw do
 
   resources :chats, only: %i[index show create]
 
-  resources :movies, only: %i[new create index]
+  resources :movies, only: %i[new create index show]
   # Chats resources will be used by:
   # 1 - INDEX via the homepage (logged-in)
   #   if not logged in, the user only sees the homepage (pages#home) without their chat history
