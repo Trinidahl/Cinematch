@@ -137,3 +137,4 @@ Movie.create!([
 
 puts 'creating new recommendations...'
 Recommendation.create(chat_id: Chat.first.id, movie_id: Movie.first.id, unchosen: false)
+Recommendation.create(chat_id: Chat.first.id, movie_id: Movie.last.id, unchosen: false)

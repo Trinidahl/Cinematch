@@ -4,7 +4,8 @@ class ChatsController < ApplicationController
   end
 
   def show
-    @movies = Movie.find(recommendations: { unchosen: false })
+    @chat = Chat.find(params[:id])
+    @movies = @chat.movies.where(recommendations: { unchosen: false })
   end
 
   def create
