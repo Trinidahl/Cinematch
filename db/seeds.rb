@@ -8,14 +8,18 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-puts 'Cleaning database...'
+puts 'Cleaning Chat table...'
 Chat.destroy_all
 
-puts 'creating new chat...'
-Chat.create[title: 'test chat', status: 'test status']
-
-puts 'cleaning movie database'
+puts 'cleaning Movie table...'
 Movie.destroy_all
+
+puts 'cleaning Recommendation table...'
+Recommendation.destroy_all
+
+puts 'creating new chats...'
+Chat.create(title: 'test chat 1', status: 'status chat 1')
+Chat.create(title: 'test chat 2', status: 'status chat 2')
 
 puts 'creating new movies...'
 Movie.create!([
@@ -130,3 +134,6 @@ Movie.create!([
     system_prompt: "Film sur la violence urbaine et la destinée dans les quartiers défavorisés."
   }
 ])
+
+puts 'creating new recommendations...'
+Recommendation.create(chat_id: Chat.first.id, movie_id: Movie.first.id, unchosen: false)

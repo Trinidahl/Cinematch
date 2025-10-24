@@ -10,12 +10,12 @@ Rails.application.routes.draw do
   # root "posts#index"
 
   resources :chats, only: %i[index show create]
-
-  resources :movies, only: %i[new create index]
   # Chats resources will be used by:
   # 1 - INDEX via the homepage (logged-in)
   #   if not logged in, the user only sees the homepage (pages#home) without their chat history
   #   if logged in, the user sees their previous chats by calling chats#index
   # 2 - CREATE via the form on the homepage when the user clicks on "submit". No need of NEW, because there is no dedicated page for the form
   # 3- SHOW via the chat screen to display a specific chat
+
+  resources :movies, only: %i[new create show]
 end
