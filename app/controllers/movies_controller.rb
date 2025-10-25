@@ -11,6 +11,7 @@ class MoviesController < ApplicationController
 
   def show
     @movie = Movie.find(params[:id])
+    # @chat  = Chat.find(params[:chat_id]) if params[:chat_id]  (à ajouter après ajout du chat)
   end
 
   private
