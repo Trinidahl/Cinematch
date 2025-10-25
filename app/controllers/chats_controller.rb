@@ -12,6 +12,7 @@ class ChatsController < ApplicationController
   def show
     @chat = Chat.find(params[:id])
     @movies = @chat.movies.where(recommendations: { unchosen: false })
+    @messages = @chat.messages.order(created_at: :asc)
   end
 
   def new
