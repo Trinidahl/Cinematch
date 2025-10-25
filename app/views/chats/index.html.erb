@@ -3,3 +3,24 @@
 <li><%= link_to chat.title, chat_path(chat) %>
 <% end %>
 </ul>
+
+<h1 class="form-title">Find Your Next Movie 🎬</h1>
+
+<div class="form-container">
+<%= simple_form_for(@chat) do |f| %>
+  <%= f.input :mood, label: "What are you in the mood for?", placeholder: "e.g. feel-good, sad, adventurous" %>
+  <%= f.input :genre, label: "Preferred genre(optional)", placeholder: "e.g. happy, drama, thriller" %>
+  <%= f.input :actor, label: "Any actor you want to watch (optional)" %>
+  <%= f.input :realisator, label: "Any realisator (optional)" %>
+  <%= f.input :year, label: "From a specific year (optional)" %>
+  <%= f.input :country, as: :string, label: "From which country (optional)?" %>
+  <%= f.input :length,
+            label: "Movie length restriction (optional)",
+            as: :select,
+            collection: ["No limit", "Under 60 min", "60-90 min", "90-120 min", "Over 120 min"],
+            include_blank: "Select length" %>
+
+
+
+  <%= f.submit "Find my movie", class: "btn btn-primary" %>
+<% end %>
