@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   # root "posts#index"
 
   resources :chats, only: %i[index show create] do
-    resources :messages, only: %i[create]
+    resources :messages, only: %i[create index]
   end
 
   resources :movies, only: %i[new create index show]
