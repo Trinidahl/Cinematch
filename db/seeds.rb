@@ -8,7 +8,7 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-puts 'cleaning Users table...'
+puts 'Cleaning User table...'
 User.destroy_all
 
 puts 'Cleaning Chat table...'
@@ -25,8 +25,8 @@ User.create!(email: 'test-1@gmail.com', password: '1234567', name: 'Roland')
 User.create!(email: 'test-2@gmail.com', password: '4567891', name: 'Georgette')
 
 puts 'creating new chats...'
-Chat.create!(title: 'test chat 1', status: 'status chat 1')
-Chat.create!(title: 'test chat 2', status: 'status chat 2')
+Chat.create!(title: 'test chat 1', status: 'status chat 1', user_id: User.first.id)
+Chat.create!(title: 'test chat 2', status: 'status chat 2', user_id: User.last.id)
 
 puts 'creating new movies...'
 Movie.create!([
