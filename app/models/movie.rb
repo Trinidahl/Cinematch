@@ -16,11 +16,12 @@ class Movie < ApplicationRecord
     html = URI.open(self.url, "Accept-Language" => "en-US", "User-Agent" => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36")
     html_doc = Nokogiri::HTML.parse(html)
 
-    # recherche le code css correspondant, le premier et prend l'image
+    # recherche le code css correspondant, prend le premier et prend l'image associee
     poster = html_doc.at_css(".ipc-media--poster-l img")
-    # on récupère l'URL de l'image qui est dans img
+    # on récupère l'URL de l'image qui est dans src
     poster_src = poster['src']
 
+    # https://guides.rubyonrails.org/active_storage_overview.html#attaching-file-io-objects
     file = URI.open(poster_src)
     self.poster.attach(
       io: file,
