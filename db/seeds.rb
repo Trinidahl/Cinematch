@@ -8,6 +8,9 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
+puts 'cleaning Users table...'
+User.destroy_all
+
 puts 'Cleaning Chat table...'
 Chat.destroy_all
 
@@ -17,9 +20,13 @@ Movie.destroy_all
 puts 'cleaning Recommendation table...'
 Recommendation.destroy_all
 
+puts 'creating new users...'
+User.create!(email: 'test-1@gmail.com', password: '1234567', name: 'Roland')
+User.create!(email: 'test-2@gmail.com', password: '4567891', name: 'Georgette')
+
 puts 'creating new chats...'
-Chat.create(title: 'test chat 1', status: 'status chat 1')
-Chat.create(title: 'test chat 2', status: 'status chat 2')
+Chat.create!(title: 'test chat 1', status: 'status chat 1')
+Chat.create!(title: 'test chat 2', status: 'status chat 2')
 
 puts 'creating new movies...'
 Movie.create!([
@@ -136,5 +143,5 @@ Movie.create!([
 ])
 
 puts 'creating new recommendations...'
-Recommendation.create(chat_id: Chat.first.id, movie_id: Movie.first.id, unchosen: false)
-Recommendation.create(chat_id: Chat.first.id, movie_id: Movie.last.id, unchosen: false)
+Recommendation.create!(chat_id: Chat.first.id, movie_id: Movie.first.id, unchosen: false)
+Recommendation.create!(chat_id: Chat.first.id, movie_id: Movie.last.id, unchosen: false)
