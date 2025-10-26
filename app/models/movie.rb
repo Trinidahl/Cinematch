@@ -13,19 +13,19 @@ class Movie < ApplicationRecord
   private
 
   def attach_poster
-    html = URI.open(self.url)
+    html = URI.open(self.url, "Accept-Language" => "en-US", "User-Agent" => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36")
     html_doc = Nokogiri::HTML.parse(html)
 
     # recherche le code css correspondant, le premier et prend l'image
     poster = html_doc.at_css(".ipc-media--poster-l img")
-    poster_src = poster['src'] # <-- on récupère l'URL de l'image qui est dans img
+    # on récupère l'URL de l'image qui est dans img
+    poster_src = poster['src']
 
     file = URI.open(poster_src)
-    poster.attach(
+    self.poster.attach(
       io: file,
       filename: "#{title.parameterize}.jpg",
       content_type: "image/jpeg"
     )
-    Rails.logger.info("Poster attaché pour #{title} via Cloudinary")
   end
 end
