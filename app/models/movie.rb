@@ -8,6 +8,8 @@ class Movie < ApplicationRecord
 
   has_one_attached :poster
 
+  validates :title, uniqueness:
+
   after_create :attach_poster
 
   private
