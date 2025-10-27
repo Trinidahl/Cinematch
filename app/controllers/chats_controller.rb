@@ -7,6 +7,7 @@ SYSTEM_PROMPT = "
 class ChatsController < ApplicationController
   def index
     @chats = Chat.all
+    @chat = current_user.chats.build
   end
 
   def show
@@ -51,24 +52,33 @@ class ChatsController < ApplicationController
   private
 
   def chat_params
-    params.require(:chat).permit(:title, :status)
+    params.require(:chat).permit(
+      :title, :status,
+      :mood, :genre, :actor,
+      :realisator, :year, :country, :length
+    )
   end
 
   def build_user_message
-    # À adapter après finalisation du formulaire, je mets des données en dur pour le moment
-    # mood = params[:mood]
-    # genre = params[:genre]
-    # country = params[:country]
-    # etc
+  mood = params[:chat][:mood].presence || "any"
+  genre = params[:chat][:genre].presence || "any"
+  actor = params[:chat][:actor].presence || "no preference"
+  realisator = params[:chat][:realisator].presence || "no preference"
+  year = params[:chat][:year].presence || "any year"
+  country = params[:chat][:country].presence || "any country"
+  length = params[:chat][:length].presence || "any length"
 
-    # réponses au formulaire à interpoler ici
-    "I'm looking for a movie with the following criteria:
-    - Mood: feel good
-    - Genre: comedy
-    - Country: france
-    - Year: between 2000 and 2025
-    - Director: no preferences
+  <<~MESSAGE
+    I'm looking for a movie with the following criteria:
+    - Mood: #{mood}
+    - Genre: #{genre}
+    - Actor: #{actor}
+    - Director: #{realisator}
+    - Year: #{year}
+    - Country: #{country}
+    - Length: #{length} minutes or less (if applicable)
 
-    Can you recommend some movies?"
+    Please recommend a few movies that match these preferences, with a short description for each.
+  MESSAGE
   end
 end

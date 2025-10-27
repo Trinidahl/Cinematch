@@ -11,13 +11,16 @@
 @import "components/index";
 @import "pages/index";
 
-body {
-  font-family: Helvetica, sans-serif;
-  color: #4A4A4A;
+.form-container {
+  max-width: 500px;   /* limits form width */
+  margin: 50px auto;  /* centers horizontally and adds vertical spacing */
+  padding: 30px;
+  background-color: #f9f9f9;  /* light background */
+  border-radius: 10px;        /* rounded corners */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* subtle shadow */
 }
 
-h1, h5 {
-  font-family: "Helvetica Neue", sans-serif;
-  font-weight: 500;
-  color: #1F2937;
+.form-container .btn {
+  display: block;
+  width: 100%;  /* full width button */
 }
