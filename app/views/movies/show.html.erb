@@ -1,14 +1,12 @@
 <div class="container mt-5">
-
   <header class="show-header mb-4">
 <%#     <%= link_to "⬅️ Back to Movie Search", chat_path(@chat), class: "btn btn-outline-secondary" %>
     <!-- À remplacer par ligne du dessus quand chat_path sera créé -->
-    ⬅️ Back to Movie Search
-   </header>
+    <%= link_to "⬅️ Back to Movie Search", "javascript:history.back()" %>
+  </header>
 
   <div class="card shadow-lg border-0">
     <div class="row g-0">
-
       <!-- Affiche du film -->
       <div class="col-md-4">
         <% if @movie.poster.attached? %>

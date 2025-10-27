@@ -6,7 +6,7 @@ SYSTEM_PROMPT = "
 
 class ChatsController < ApplicationController
   def index
-    @chats = Chat.all
+    @chats = current_user.chats.all
     @chat = current_user.chats.build
   end
 
