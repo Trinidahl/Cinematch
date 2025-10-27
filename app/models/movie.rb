@@ -8,7 +8,7 @@ class Movie < ApplicationRecord
 
   has_one_attached :poster
 
-  validates :title, uniqueness:
+  validates :title, uniqueness: true
 
   after_create :attach_poster
 
