@@ -51,13 +51,13 @@ gem "simple_form", github: "heartcombo/simple_form"
 gem "sassc-rails"
 gem "ruby_llm", "~> 1.6.4"
 gem 'nokogiri'
+gem "cloudinary"
 gem "image_processing", "~> 1.2"
 
 group :development, :test do
   gem "dotenv-rails"
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ]
-  gem "cloudinary"
 end
 
 group :development do
