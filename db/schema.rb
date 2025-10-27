@@ -48,6 +48,13 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_26_082315) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
+    t.string "mood"
+    t.string "genre"
+    t.string "actor"
+    t.string "realisator"
+    t.integer "year"
+    t.string "country"
+    t.integer "length"
     t.index ["user_id"], name: "index_chats_on_user_id"
   end
 
