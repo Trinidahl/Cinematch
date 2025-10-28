@@ -7,7 +7,7 @@
   </p>
   <div class="d-flex justify-content-center gap-3">
     <% if user_signed_in? %>
-    <%= link_to "Start a new search", chats_path, class: "btn btn-primary"%>
+    <%= link_to "Start a new search", chats_path, class: "btn btn-primary", style:"border-radius: 8px"%>
     <% else %>
       <%= link_to "Sign In", new_user_session_path, class: "btn btn-outline-primary btn-lg" %>
       <%= link_to "Sign Up", new_user_registration_path, class: "btn btn-primary btn-lg" %>
