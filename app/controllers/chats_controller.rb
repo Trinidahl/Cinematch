@@ -1,3 +1,6 @@
+require 'open-uri'
+require 'json'
+
 SYSTEM_PROMPT = "
   You are a movie recommendation assistant.
   You help users find the perfect movie based on their mood, preferred genre,
@@ -12,12 +15,10 @@ SYSTEM_PROMPT = "
     \"genre\": \"Genre\",
     \"country\": \"Country\",
     \"description\": \"Short description (max 150 characters)\",
-    \"image_url\": \"https://image.tmdb.org/t/p/w500/poster_path.jpg\"
   }
 
   Return ONLY the JSON array, no additional text.
   Recommend 3-5 movies maximum.
-  Use The Movie Database (TMDB) poster URLs for images.
 "
 
 class ChatsController < ApplicationController
@@ -49,9 +50,11 @@ class ChatsController < ApplicationController
       @ruby_llm_chat = RubyLLM.chat
       response = @ruby_llm_chat.with_instructions(SYSTEM_PROMPT).ask(@message.content)
 
-      # Créer SEULEMENT le message assistant
-      # NE PAS créer les movies ni les recommendations
-      @chat.messages.create!(role: "assistant", content: response.content)
+      # variable stockant la version enrichie de la réponse avec l'image du movie
+      enriched_response = enrich_with_omdb(response.content)
+
+      # Modifiée pour retourner la version enrichie
+      @chat.messages.create!(role: "assistant", content: enriched_response)
 
       redirect_to chat_path(@chat)
     else
@@ -71,6 +74,43 @@ class ChatsController < ApplicationController
       JSON.parse(json_match[0])
     rescue JSON::ParserError
       []
+    end
+  end
+
+  # méthode permettant d'enrichir la réponse du LLM avec OMDB
+  def enrich_with_omdb(llm_response)
+    begin
+      # parse la réponse JSON du LLM
+      json_match = llm_response.match(/\[.*\]/m)
+      return llm_response unless json_match
+
+      movies = JSON.parse(json_match[0])
+
+      # enrichit chaque film avec le poster OMDB
+      enriched_movies = movies.map do |movie|
+        omdb_data = fetch_from_omdb(movie['title'])
+        movie['image_url'] = omdb_data['Poster'] if omdb_data && omdb_data['Poster'] != 'N/A'
+        movie
+      end
+
+      enriched_movies.to_json
+    rescue => e
+      Rails.logger.error "Error enriching with OMDB: #{e.message}"
+      llm_response # Retourner la réponse originale en cas d'erreur
+    end
+  end
+
+  # appel à l'API OMDB
+  def fetch_from_omdb(title)
+    api_key = ENV['OMDB_API_KEY']
+    url = "http://www.omdbapi.com/?apikey=#{api_key}&t=#{URI.encode_www_form_component(title)}"
+
+    begin
+      response = URI.open(url).read
+      JSON.parse(response)
+    rescue => e
+      Rails.logger.error "OMDB API error for #{title}: #{e.message}"
+      nil
     end
   end
 
