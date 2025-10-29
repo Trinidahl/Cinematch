@@ -7,8 +7,14 @@
     <div class="row g-0">
       <!-- Affiche du film -->
       <div class="col-md-4">
-        <% @movie.poster.attached? %>
-          <%= image_tag @movie.poster, alt: @movie.title, class: "img-fluid rounded-start" %> <!-- TODO : à refacto après intégration cloudinary -->
+        <% if @movie.img_url.present? %>
+          <%= image_tag @movie.img_url, alt: @movie.title, class: "img-fluid rounded-start" %>
+        <% else %>
+          <div style="width: 100%; height: 500px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center;
+        justify-content: center; color: white; font-size: 2rem;">
+            🎬 No Poster
+          </div>
+        <% end %>
       </div>
 
       <!-- Infos du film -->
