@@ -1,7 +1,23 @@
 SYSTEM_PROMPT = "
   You are a movie recommendation assistant.
   You help users find the perfect movie based on their mood, preferred genre,
-  country, and other preferences. Provide thoughtful recommendations with explanations.
+  country, and other preferences.
+
+  IMPORTANT: You must respond with a JSON array of movie recommendations.
+  Each movie must have this exact structure:
+  {
+    \"title\": \"Movie Title\",
+    \"year\": \"2020\",
+    \"director\": \"Director Name\",
+    \"genre\": \"Genre\",
+    \"country\": \"Country\",
+    \"description\": \"Short description (max 150 characters)\",
+    \"image_url\": \"https://image.tmdb.org/t/p/w500/poster_path.jpg\"
+  }
+
+  Return ONLY the JSON array, no additional text.
+  Recommend 3-5 movies maximum.
+  Use The Movie Database (TMDB) poster URLs for images.
 "
 
 class ChatsController < ApplicationController
@@ -14,6 +30,8 @@ class ChatsController < ApplicationController
     @chat = Chat.find(params[:id])
     @movies = @chat.movies.where(recommendations: { unchosen: false })
     @messages = @chat.messages.order(created_at: :asc)
+    # récupère les dernières recommendations
+    @recommended_movies = extract_recommendations_from_last_message
   end
 
   def new
@@ -24,25 +42,17 @@ class ChatsController < ApplicationController
     @chat = current_user.chats.build(chat_params)
 
     if @chat.save
-      # Crée le premier message avec le contenu du formulaire
       @user_message_content = build_user_message
-
-      @message = @chat.messages.create!(
-        role: "user",
-        content: @user_message_content
-      )
+      @message = @chat.messages.create!(role: "user", content: @user_message_content)
 
       # Appel du LLM
       @ruby_llm_chat = RubyLLM.chat
       response = @ruby_llm_chat.with_instructions(SYSTEM_PROMPT).ask(@message.content)
 
-      # Crée la réponse
-      @chat.messages.create!(
-        role: "assistant",
-        content: response.content
-      )
+      # Créer SEULEMENT le message assistant
+      # NE PAS créer les movies ni les recommendations
+      @chat.messages.create!(role: "assistant", content: response.content)
 
-      # Redirige vers la page du chat
       redirect_to chat_path(@chat)
     else
       render :new, status: :unprocessable_entity
@@ -50,6 +60,19 @@ class ChatsController < ApplicationController
   end
 
   private
+
+  def extract_recommendations_from_last_message
+    last_assistant_message = @chat.messages.where(role: "assistant").last
+    return [] unless last_assistant_message
+
+    begin
+      json_match = last_assistant_message.content.match(/\[.*\]/m)
+      return [] unless json_match
+      JSON.parse(json_match[0])
+    rescue JSON::ParserError
+      []
+    end
+  end
 
   def chat_params
     params.require(:chat).permit(

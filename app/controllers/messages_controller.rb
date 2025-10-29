@@ -11,11 +11,8 @@ class MessagesController < ApplicationController
       @ruby_llm_chat = RubyLLM.chat
       response = @ruby_llm_chat.with_instructions(SYSTEM_PROMPT).ask(@message.content)
 
-      #Crée la réponse
-      @chat.messages.create!(
-        role: "assistant",
-        content: response.content
-      )
+      # Crée SEULEMENT le message assistant
+      @chat.messages.create!(role: "assistant", content: response.content)
 
       redirect_to chat_path(@chat)
 
