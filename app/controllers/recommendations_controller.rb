@@ -14,6 +14,7 @@ class RecommendationsController < ApplicationController
       movie.genre = movie_data['genre']
       movie.country = movie_data['country']
       movie.description = movie_data['description']
+      movie.img_url = movie_data['image_url']  # Sauvegarde l'URL de l'image
     end
 
     # 3. Créer la recommendation (lien entre chat et movie)

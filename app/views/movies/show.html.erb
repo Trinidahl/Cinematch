@@ -1,7 +1,5 @@
 <div class="container mt-5">
   <header class="show-header mb-4">
-<%#     <%= link_to "⬅️ Back to Movie Search", chat_path(@chat), class: "btn btn-outline-secondary" %>
-    <!-- À remplacer par ligne du dessus quand chat_path sera créé -->
     <%= link_to "⬅️ Back to Movie Search", "javascript:history.back()" %>
   </header>
 
@@ -9,10 +7,13 @@
     <div class="row g-0">
       <!-- Affiche du film -->
       <div class="col-md-4">
-        <% if @movie.poster.attached? %>
-          <%= image_tag @movie.poster, alt: @movie.title, class: "img-fluid rounded-start" %> <!-- TODO : à refacto après intégration cloudinary -->
+        <% if @movie.img_url.present? %>
+          <%= image_tag @movie.img_url, alt: @movie.title, class: "img-fluid rounded-start" %>
         <% else %>
-          <%= image_tag "placeholder_movie.jpg", alt: "No image available", class: "img-fluid rounded-start" %> <!-- TODO : ajouter une image de back up si pas d'url trouvée pour le movie -->
+          <div style="width: 100%; height: 500px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center;
+        justify-content: center; color: white; font-size: 2rem;">
+            🎬 No Poster
+          </div>
         <% end %>
       </div>
 
