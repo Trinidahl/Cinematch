@@ -5,12 +5,11 @@
       <div class="mb-4">
         <% @chats.each do |chat| %>
           <%= link_to chat_path(chat), class: "text-decoration-none" do %>
-            <div class="d-flex align-items-center justify-content-between p-3 mb-2 bg-white"
-            style="box-shadow: 0 2px 8px rgba(108, 107, 107, 0.1); border-radius: 8px; cursor: pointer;">
+            <div class="p-3 mb-2 watchlist_container_chat_index">
               <div class="d-flex align-items-center">
                 <span class="fs-4 me-3">🎬</span>
                 <div>
-                  <div class="fw-semibold text-dark"><%= chat.title %></div>
+                  <div><%= chat.title %></div>
                   <small class="text-muted">Mood: <%= chat.mood || "General" %></small>
                 </div>
               </div>
@@ -19,7 +18,7 @@
           <% end %>
         <% end %>
       </div>
-    <div class="p-4" style="background: white; box-shadow: 0 2px 8px rgba(108, 107, 107, 0.1); border-radius: 8px;">
+    <div class="p-4 formulaire">
       <h3 class="mb-4 fw-bold">🎥 Launch a New Watchlist</h3>
         <%= simple_form_for(@chat) do |f| %>
           <%= f.input :mood, label: "What are you in the mood for?", placeholder: "e.g. feel-good, sad, adventurous" %>
