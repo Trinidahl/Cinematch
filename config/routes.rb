@@ -12,6 +12,7 @@ Rails.application.routes.draw do
 
   resources :chats, only: %i[index show create] do
     resources :messages, only: %i[create index]
+    resources :recommendations, only: %i[create]
   end
 
   resources :movies, only: %i[new create index show]

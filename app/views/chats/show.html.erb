@@ -77,8 +77,13 @@
                               <li><strong>Country:</strong> <%= movie['country'] %></li>
                               <li><strong>Description:</strong> <%= movie['description'] %></li>
                             </ul>
-                          </li>
-                        <% end %>
+                            <%= button_to "Save this movie",
+                                          chat_recommendations_path(@chat),
+                                          method: :post,
+                                          # movie_data est un hash donc il faut le transformer en string json
+                                          params: { movie_data: movie.to_json },
+                                          class: "btn btn-success btn-sm mt-2" %>
+                            <% end %>
                       </ul>
               <%
                     else
