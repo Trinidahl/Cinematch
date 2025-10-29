@@ -15,7 +15,7 @@
   max-width: 500px;   /* limits form width */
   margin: 50px auto;  /* centers horizontally and adds vertical spacing */
   padding: 30px;
-  background-color: #f9f9f9;  /* light background */
+  background-color: #f3efef;  /* light background */
   border-radius: 10px;        /* rounded corners */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* subtle shadow */
 }
@@ -27,9 +27,14 @@
 
 body {
   font-family: Helvetica, sans-serif;
+  background-color: #9b9797;
 }
 
 h1, h2, h3, h4, h5 {
   font-family: Helvetica, sans-serif;
   font-weight: 500;
+}
+
+.return_to {
+background: white
 }
