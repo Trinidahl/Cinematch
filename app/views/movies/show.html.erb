@@ -1,24 +1,19 @@
 <div class="container mt-5">
-  <header class="show-header mb-4">
-<%#     <%= link_to "⬅️ Back to Movie Search", chat_path(@chat), class: "btn btn-outline-secondary" %>
-    <!-- À remplacer par ligne du dessus quand chat_path sera créé -->
-    <%= link_to "⬅️ Back to Movie Search", "javascript:history.back()" %>
+  <header class="mb-4 return_to">
+    <%= link_to "⬅️ Back to my watchlist", "javascript:history.back()" %>
   </header>
 
-  <div class="card shadow-lg border-0">
+  <div class="movie_card">
     <div class="row g-0">
       <!-- Affiche du film -->
       <div class="col-md-4">
-        <% if @movie.poster.attached? %>
+        <% @movie.poster.attached? %>
           <%= image_tag @movie.poster, alt: @movie.title, class: "img-fluid rounded-start" %> <!-- TODO : à refacto après intégration cloudinary -->
-        <% else %>
-          <%= image_tag "placeholder_movie.jpg", alt: "No image available", class: "img-fluid rounded-start" %> <!-- TODO : ajouter une image de back up si pas d'url trouvée pour le movie -->
-        <% end %>
       </div>
 
       <!-- Infos du film -->
       <div class="col-md-8">
-        <div class="card-body">
+        <div class="movie_text">
           <h2 class="card-title mb-3"><%= @movie.title %> (<%= @movie.year %>)</h2>
 
           <p class="mb-1"><strong>Director:</strong> <%= @movie.director %></p>
@@ -30,15 +25,15 @@
 
           <p class="card-text"><%= simple_format(@movie.description) %></p>
 
+        </div>
+      </div>
+    </div>
+  </div>
+
           <% if @movie.system_prompt.present? %>
-            <div class="mt-4 alert alert-secondary">
+            <div class="card original_prompt">
               <strong>Original prompt:</strong> <%= @movie.system_prompt %>
             </div>
           <% end %>
 
-        </div>
-      </div>
-
-    </div>
-  </div>
 </div>
