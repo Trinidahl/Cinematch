@@ -1,3 +1,6 @@
+require 'open-uri'
+require 'json'
+
 class MessagesController < ApplicationController
   before_action :set_chat
 
@@ -11,8 +14,10 @@ class MessagesController < ApplicationController
       @ruby_llm_chat = RubyLLM.chat
       response = @ruby_llm_chat.with_instructions(SYSTEM_PROMPT).ask(@message.content)
 
+      enriched_response = enrich_with_omdb(response.content)
+
       # Crée SEULEMENT le message assistant
-      @chat.messages.create!(role: "assistant", content: response.content)
+      @chat.messages.create!(role: "assistant", content: enriched_response)
 
       redirect_to chat_path(@chat)
 
@@ -30,5 +35,42 @@ class MessagesController < ApplicationController
 
   def message_params
     params.require(:message).permit(:content)
+  end
+
+  # méthode permettant d'enrichir la réponse du LLM avec OMDB
+  def enrich_with_omdb(llm_response)
+    begin
+      # parse la réponse JSON du LLM
+      json_match = llm_response.match(/\[.*\]/m)
+      return llm_response unless json_match
+
+      movies = JSON.parse(json_match[0])
+
+      # enrichit chaque film avec le poster OMDB
+      enriched_movies = movies.map do |movie|
+        omdb_data = fetch_from_omdb(movie['title'])
+        movie['image_url'] = omdb_data['Poster'] if omdb_data && omdb_data['Poster'] != 'N/A'
+        movie
+      end
+
+      enriched_movies.to_json
+    rescue => e
+      Rails.logger.error "Error enriching with OMDB: #{e.message}"
+      llm_response # Retourner la réponse originale en cas d'erreur
+    end
+  end
+
+  # appel à l'API OMDB
+  def fetch_from_omdb(title)
+    api_key = ENV['OMDB_API_KEY']
+    url = "http://www.omdbapi.com/?apikey=#{api_key}&t=#{URI.encode_www_form_component(title)}"
+
+    begin
+      response = URI.open(url).read
+      JSON.parse(response)
+    rescue => e
+      Rails.logger.error "OMDB API error for #{title}: #{e.message}"
+      nil
+    end
   end
 end

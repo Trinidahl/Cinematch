@@ -82,7 +82,7 @@ class ChatsController < ApplicationController
     begin
       # parse la réponse JSON du LLM
       json_match = llm_response.match(/\[.*\]/m)
-      return cllm_response unless json_match
+      return llm_response unless json_match
 
       movies = JSON.parse(json_match[0])
 

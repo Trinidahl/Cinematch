@@ -56,19 +56,11 @@
                         <% movies_data.each do |movie| %>
                           <li class="mb-3">
 
-                            <!-- Placeholder avant d'avoir l'image du film  -->
-                            <div class="mb-2" style="width: 150px; height: 225px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-                              <div>
-                                <div style="font-size: 2rem; margin-bottom: 10px;">🎬</div>
-                                <div style="color: white; font-weight: 600; font-size: 0.9rem; line-height: 1.2;">
-                                  <%= truncate(movie['title'], length: 30) %>
-                                </div>
-                                <div style="color: rgba(255,255,255,0.8); font-size: 0.75rem; margin-top: 5px;">
-                                  <%= movie['year'] %>
-                                </div>
-                              </div>
-                            </div>
-
+                            <% if movie['image_url'].present? && movie['image_url'] != 'N/A' %>
+                              <%= image_tag movie['image_url'],
+                                  alt: movie['title'],
+                                  style: "width: 150px; height: 225px; object-fit: cover; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 10px;" %>
+                            <% end %>
                             <!-- Infos du film à placer dans la future vignette -->
                             <strong><%= movie['title'] %></strong> (<%= movie['year'] %>)
                             <ul style="list-style-type: circle; padding-left: 20px; margin-top: 5px;">
@@ -83,7 +75,8 @@
                                           # movie_data est un hash donc il faut le transformer en string json
                                           params: { movie_data: movie.to_json },
                                           class: "btn btn-success btn-sm mt-2" %>
-                            <% end %>
+                          </li>
+                        <% end %>
                       </ul>
               <%
                     else
