@@ -12,12 +12,12 @@ SYSTEM_PROMPT = "
     \"genre\": \"Genre\",
     \"country\": \"Country\",
     \"description\": \"Short description (max 150 characters)\",
-    \"image_url\": \"https://image.tmdb.org/t/p/w500/poster_path.jpg\"
+    \"image_url\": \"URL from OMDB Poster field\"
   }
 
-  Return ONLY the JSON array, no additional text.
-  Recommend 3-5 movies maximum.
-  Use The Movie Database (TMDB) poster URLs for images.
+  For images, use the 'Poster' field returned by the OMDB API.
+  The Poster field contains the direct URL to the movie poster image.
+  If no poster is available, the field will contain 'N/A'.
 "
 
 class ChatsController < ApplicationController
