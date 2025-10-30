@@ -18,7 +18,7 @@ SYSTEM_PROMPT = "
   }
 
   Return ONLY the JSON array, no additional text.
-  Recommend 3-5 movies maximum.
+  Recommend 3 movies maximum.
 "
 
 class ChatsController < ApplicationController
