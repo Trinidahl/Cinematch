@@ -41,6 +41,7 @@ class ChatsController < ApplicationController
   def create
     # Crée le chat
     @chat = current_user.chats.build(chat_params)
+    @chat.title = "Untitled" if @chat.title.blank?
 
     if @chat.save
       @user_message_content = build_user_message
@@ -55,6 +56,9 @@ class ChatsController < ApplicationController
 
       # Modifiée pour retourner la version enrichie
       @chat.messages.create!(role: "assistant", content: enriched_response)
+
+      # Ajout du titre généré par le LLM
+      @chat.generate_title_from_first_message
 
       redirect_to chat_path(@chat)
     else
