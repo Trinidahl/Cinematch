@@ -1,7 +1,7 @@
 <div class="container my-5" style="max-width: 900px; margin: 0 auto; width: 100%">
   <h1 class="form-title">Find Your Next Movie 🎬</h1>
   <div>
-    <h3 class="mb-3">Look at my previous watchlists:</h3>
+    <h3 class="mb-3 d-flex">Look at my previous watchlists:</h3>
       <div class="mb-4">
         <% @chats.each do |chat| %>
           <%= link_to chat_path(chat), class: "text-decoration-none" do %>
