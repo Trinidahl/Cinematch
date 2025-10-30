@@ -1,4 +1,4 @@
-<div class="container my-5" style="max-width: 900px; margin: 0 auto;">
+<div class="container my-5" style="max-width: 1200px; margin: 0 auto;">
   <h1 class="form-title">Find Your Next Movie 🎬</h1>
 
   <header class="show-header mb-4 return_to">
@@ -8,128 +8,85 @@
   <div class="my-2 chat_name_in_watchlist">
     <h3 class="mb-1">Chat: <i>"<%= @chat.mood %>"</i></h3>
   </div>
-  <div class= "movie_watchlist_container">
-    <% if @movies.any? %>
-      <div class="row">
-        <% @movies.each do |movie| %>
-          <div class="col-md-4 mb-4">
-            <div class="card h-100">
-              <% if movie.img_url.present? %>
-                <%= image_tag movie.img_url, class: "card-img-top", alt: movie.title, style: "height: 250px; object-fit: contain;" %>
-              <% else %>
-                <div style="height: 250px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem;">
-                  🎬
-                </div>
-              <% end %>
-              <div class="card-body d-flex flex-column">
-                <h5 class="card-title"><%= movie.title %></h5>
-                <p class="card-text flex-grow-1"><%= movie.description %></p>
-                <%= link_to "See movie details", movie_path(movie), class: "btn btn-primary mt-auto" %>
-              </div>
-            </div>
+
+  <!-- 1️⃣ Movie suggestions -->
+  <div class="movie-suggestions mb-5">
+    <% @movies.each do |movie| %>
+      <div class="watchlist_container_chat_index">
+        <% if movie.img_url.present? %>
+          <%= image_tag movie.img_url, alt: movie.title %>
+        <% else %>
+          <div style="height: 250px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem;">
+            🎬
           </div>
         <% end %>
+        <h5><%= movie.title %></h5>
+        <p><%= movie.description %></p>
+        <%= link_to "See movie details", movie_path(movie), class: "btn btn-primary" %>
       </div>
     <% end %>
   </div>
 
-  <!-- Chat moderne avec historique -->
-  <div class="mt-4 p-3 chat_container">
-    <h5 class="card-title fw-bold mb-4" style="font-size: 1.25rem;">Keep discussing with your movie assistant to get better suggestions 🍿</h5>
-
-    <!-- Historique des messages -->
-    <div class="mb-4 chat_body">
-      <% @messages.each do |message| %>
-
-        <%# Message de l'assistant %>
-        <% if message.role == "assistant" %>
-          <div class="d-flex mb-3">
-            <div class="bg-light assistant_messages">
-
-              <%
-                # Essayer de trouver du JSON dans le message
-                json_match = message.content.match(/\[.*\]/m)
-
-                if json_match
-                  # Parser le JSON
-                  begin
-                    movies_data = JSON.parse(json_match[0])
-
-                    # Si c'est un tableau de films, afficher avec placeholders
-                    if movies_data.is_a?(Array) && movies_data.any?
-              %>
-                      <p class="mb-2"><strong>Here are some movie recommendations:</strong></p>
-                      <ul style="list-style-type: disc; padding-left: 20px;">
-                        <% movies_data.each do |movie| %>
-                          <li class="mb-3">
-                            <% if movie['image_url'].present? && movie['image_url'] != 'N/A' %>
-                              <%= image_tag movie['image_url'],
-                                  alt: movie['title'],
-                                  style: "width: 150px; height: 225px; object-fit: cover; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 10px;" %>
+  <!-- 2️⃣ Chat section (horizontal under movie suggestions) -->
+  <div class="chat_section">
+    <div class="chat_container mt-4 p-3">
+      <h5 class="card-title fw-bold mb-4" style="font-size: 1.25rem;">Keep discussing with your movie assistant 🍿</h5>
+      <div class="chat_body mb-4">
+        <% @messages.each do |message| %>
+          <% if message.role == "assistant" %>
+            <div class="d-flex mb-3">
+              <div class="bg-light assistant_messages">
+                <%# Check for JSON with movie recommendations %>
+                <% json_match = message.content.match(/\[.*\]/m) %>
+                <% if json_match %>
+                  <% begin %>
+                    <% movies_data = JSON.parse(json_match[0]) %>
+                    <% if movies_data.is_a?(Array) && movies_data.any? %>
+                      <p class="mb-2"><strong>Assistant recommends:</strong></p>
+                      <ul class="movie-recommendations">
+                        <% movies_data.each do |m| %>
+                          <li class="movie-card">
+                            <% if m['image_url'].present? && m['image_url'] != 'N/A' %>
+                              <%= image_tag m['image_url'], alt: m['title'] %>
                             <% end %>
-                            <!-- Infos du film à placer dans la future vignette -->
-                            <strong><%= movie['title'] %></strong> (<%= movie['year'] %>)
-                            <ul style="list-style-type: circle; padding-left: 20px; margin-top: 5px;">
-                              <li><strong>Director:</strong> <%= movie['director'] %></li>
-                              <li><strong>Genre:</strong> <%= movie['genre'] %></li>
-                              <li><strong>Country:</strong> <%= movie['country'] %></li>
-                              <li><strong>Description:</strong> <%= movie['description'] %></li>
+                            <strong><%= m['title'] %></strong>
+                            <small>(<%= m['year'] %>)</small>
+                            <ul>
+                              <li><strong>Description:</strong> <%= m['description'] %></li>
                             </ul>
                             <%= button_to "Save this movie",
-                                          chat_recommendations_path(@chat),
-                                          method: :post,
-                                          # movie_data est un hash donc il faut le transformer en string json
-                                          params: { movie_data: movie.to_json },
-                                          class: "btn btn-success btn-sm mt-2" %>
+                                  chat_recommendations_path(@chat),
+                                  method: :post,
+                                  params: { movie_data: m.to_json },
+                                  class: "btn btn-success btn-sm mt-auto" %>
                           </li>
                         <% end %>
                       </ul>
-              <%
-                    else
-                      # Si ce n'est pas un tableau, afficher le message normal
-              %>
-                      <div style="white-space: pre-wrap; line-height: 1.3;">
-                        <%= message.content.strip %>
-                      </div>
-              <%
-                    end
-                  rescue JSON::ParserError
-                    # Si erreur de parsing, afficher le message normal
-              %>
-                    <div style="white-space: pre-wrap; line-height: 1.3;">
-                      <%= message.content.strip %>
-                    </div>
-              <%
-                  end
-                else
-                  # Pas de JSON trouvé, afficher le message normal
-              %>
-                  <div style="white-space: pre-wrap; line-height: 1.3;">
-                    <%= message.content.strip %>
-                  </div>
-              <%
-                end
-              %>
-
+                    <% else %>
+                      <div style="white-space: pre-wrap; line-height: 1.3;"><%= message.content.strip %></div>
+                    <% end %>
+                  <% rescue JSON::ParserError %>
+                    <div style="white-space: pre-wrap; line-height: 1.3;"><%= message.content.strip %></div>
+                  <% end %>
+                <% else %>
+                  <div style="white-space: pre-wrap; line-height: 1.3;"><%= message.content.strip %></div>
+                <% end %>
+              </div>
             </div>
-          </div>
-
-        <%# Message de l'utilisateur %>
-        <% else %>
-          <div class="d-flex justify-content-end mb-3">
-            <div class="bg-primary chat_user_message">
-              <%= message.content.strip %>
+          <% else %>
+            <div class="d-flex justify-content-end mb-3">
+              <div class="bg-primary chat_user_message">
+                <%= message.content.strip %>
+              </div>
             </div>
-          </div>
+          <% end %>
         <% end %>
+      </div>
 
+      <%= form_with model: [@chat, Message.new], url: chat_messages_path(@chat), class: "d-flex" do |f| %>
+        <%= f.text_field :content, class: "form-control", style: "border-radius: 6px 0 0 6px; border-right: none; background: white;", placeholder: "Type your message..." %>
+        <%= f.submit "Send", class: "btn btn-primary", style: "border-radius: 0 6px 6px 0;" %>
       <% end %>
     </div>
-
-    <!-- Champ de saisie et bouton -->
-    <%= form_with model: [@chat, Message.new], url: chat_messages_path(@chat), class: "d-flex" do |f| %>
-      <%= f.text_field :content, class: "form-control", style: "border-radius: 6px 0 0 6px; border-right: none; background: white;", placeholder: "Type your message..." %>
-      <%= f.submit "Send", class: "btn btn-primary", style: "border-radius: 0 6px 6px 0;" %>
-    <% end %>
   </div>
 </div>
