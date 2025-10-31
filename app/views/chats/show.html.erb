@@ -1,7 +1,7 @@
 <div class="container my-5" style="max-width: 1200px; margin: 0 auto;">
   <h1 class="form-title">Find Your Next Movie 🎬</h1>
 
-  <header class="show-header mb-4 return_to">
+  <header class="mb-4 return_to">
     <%= link_to "⬅️ Back to Movie Search", chats_path %>
   </header>
 
@@ -35,7 +35,7 @@
         <% @messages.each do |message| %>
           <% if message.role == "assistant" %>
             <div class="d-flex mb-3">
-              <div class="bg-light assistant_messages">
+              <div class="assistant_messages">
                 <%# Check for JSON with movie recommendations %>
                 <% json_match = message.content.match(/\[.*\]/m) %>
                 <% if json_match %>
@@ -52,7 +52,7 @@
                             <strong><%= m['title'] %></strong>
                             <small>(<%= m['year'] %>)</small>
                             <ul>
-                              <li><strong>Description:</strong> <%= m['description'] %></li>
+                              <li> <%= m['description'] %></li>
                             </ul>
                             <%= button_to "Save this movie",
                                   chat_recommendations_path(@chat),
@@ -84,7 +84,7 @@
       </div>
 
       <%= form_with model: [@chat, Message.new], url: chat_messages_path(@chat), class: "d-flex" do |f| %>
-        <%= f.text_field :content, class: "form-control", style: "border-radius: 6px 0 0 6px; border-right: none; background: white;", placeholder: "Type your message..." %>
+        <%= f.text_field :content, class: "form-control", style: "border-radius: 6px 0 0 6px; border-right: none;", placeholder: "Type your message..." %>
         <%= f.submit "Send", class: "btn btn-primary", style: "border-radius: 0 6px 6px 0;" %>
       <% end %>
     </div>

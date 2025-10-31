@@ -27,7 +27,7 @@
 
 body {
   font-family: Helvetica, sans-serif;
-  background-color: #9b9797;
+  background-color: $netflix-dark-grey;
 }
 
 h1, h2, h3, h4, h5 {
@@ -36,5 +36,5 @@ h1, h2, h3, h4, h5 {
 }
 
 .return_to {
-background: white
+background: $netflix-dark-grey;
 }
