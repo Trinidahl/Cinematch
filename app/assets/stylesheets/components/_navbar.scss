@@ -1,6 +1,7 @@
 .navbar-lewagon {
   justify-content: space-between;
-  background: white;
+  background: $netflix-dark-grey;
+  border-bottom: $netflix-grey 1px solid;
 }
 
 .navbar-lewagon .navbar-collapse {
@@ -14,8 +15,11 @@
 // Hover bleusur les liens de la navbar
 .navbar-lewagon .nav-link {
   transition: color 0.2s ease;
+  color: $netflix-red;
+  font-weight: 200px;
+  margin-right: 20px;
 
   &:hover {
-    color: #0d6efd !important;
+    color: $netflix-dark-red !important;
   }
 }

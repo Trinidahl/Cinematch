@@ -1,39 +1,43 @@
-<div class="container my-5" style="max-width: 900px; margin: 0 auto; width: 100%">
-  <h1 class="form-title">Find Your Next Movie 🎬</h1>
-  <div>
-    <h3 class="mb-3 d-flex">Look at my previous watchlists:</h3>
-      <div class="mb-4">
-        <% @chats.each do |chat| %>
-          <%= link_to chat_path(chat), class: "text-decoration-none" do %>
-            <div class="p-3 mb-2 watchlist_container_chat_index">
-              <div class="d-flex align-items-center">
-                <span class="fs-4 me-3">🎬</span>
-                <div>
-                  <div><%= chat.title %></div>
-                  <small class="text-muted">Mood: <%= chat.mood || "General" %></small>
-                </div>
+<div class="index-layout">
+  <!-- Left Sidebar: Previous Searches -->
+  <aside class="previous-searches-sidebar">
+    <div>
+      <div class="sidebar-header">
+        <i class="fas fa-clock"></i>
+        <h3>Your previous searches:</h3>
+      </div>
+        <div class="searches-list">
+          <% @chats.each do |chat| %>
+            <%= link_to chat_path(chat), class: "search-item" do %>
+              <div class="search-item-content">
+                <div class="search-title"><%= chat.title %></div>
               </div>
-              <span class="text-primary">→</span>
-            </div>
+            <% end %>
           <% end %>
-        <% end %>
-      </div>
-    <div class="p-4 formulaire">
-      <h3 class="mb-4 fw-bold">🎥 Launch a New Watchlist</h3>
-        <%= simple_form_for(@chat) do |f| %>
-          <%= f.input :mood, label: "What are you in the mood for?", placeholder: "e.g. feel-good, sad, adventurous" %>
-          <%= f.input :genre, label: "Preferred genre(optional)", placeholder: "e.g. happy, drama, thriller" %>
-          <%= f.input :actor, label: "Any actor you want to watch (optional)" %>
-          <%= f.input :realisator, label: "Any realisator (optional)" %>
-          <%= f.input :year, label: "From a specific year (optional)" %>
-          <%= f.input :country, as: :string, label: "From which country (optional)?" %>
-          <%= f.input :length,
-                    label: "Movie length restriction (optional)",
-                    as: :select,
-                    collection: ["No limit", "Under 60 min", "60-90 min", "90-120 min", "Over 120 min"],
-                    include_blank: "Select length" %>
-          <%= f.submit "Find my movie", class: "btn btn-primary", style: "border-radius: 8px;" %>
-        <% end %>
-      </div>
-  </div>
+        </div>
+  </aside>
+
+  <!-- Main Content: Form -->
+  <main class="main-content">
+      <div class="form-container">
+        <div class="form-header">
+          <h1>Launch a New Watchlist</h1>
+          <p class="form-subtitle">Tell us what you're looking for, we'll find it for you.</p>
+        </div>
+          <%= simple_form_for(@chat) do |f| %>
+            <%= f.input :mood, label: "What are you in the mood for?", placeholder: "e.g. feel-good, sad, adventurous" %>
+            <%= f.input :genre, label: "Preferred genre(optional)", placeholder: "e.g. happy, drama, thriller" %>
+            <%= f.input :actor, label: "Any actor you want to watch (optional)" %>
+            <%= f.input :realisator, label: "Any realisator (optional)" %>
+            <%= f.input :year, as: :string, label: "From a specific year (optional)" %>
+            <%= f.input :country, as: :string, label: "From which country (optional)?" %>
+            <%= f.input :length,
+                      label: "Movie length restriction (optional)",
+                      as: :radio_buttons,
+                      collection: ["No limit", "Under 60 min", "60-90 min", "90-120 min", "Over 120 min"],
+                      item_wrapper_class: 'length-button-wrapper' %>
+            <%= f.submit "Find my movie", class: "btn-find-movie"%>
+          <% end %>
+        </div>
+  </main>
 </div>
