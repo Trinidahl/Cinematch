@@ -11,7 +11,7 @@ class MessagesController < ApplicationController
 
     if @message.save
       # Appelle le LLM et crée la réponse
-      @ruby_llm_chat = RubyLLM.chat
+      build_conversation_history
       response = @ruby_llm_chat.with_instructions(SYSTEM_PROMPT).ask(@message.content)
 
       enriched_response = enrich_with_omdb(response.content)
@@ -28,6 +28,13 @@ class MessagesController < ApplicationController
   end
 
   private
+
+  def build_conversation_history
+    @ruby_llm_chat = RubyLLM.chat
+    @chat.messages.each do |message|
+      @ruby_llm_chat.add_message(role: message.role, content: message.content)
+    end
+  end
 
   def set_chat
     @chat = current_user.chats.find(params[:chat_id])

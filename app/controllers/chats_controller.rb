@@ -17,8 +17,9 @@ SYSTEM_PROMPT = "
     \"description\": \"Short description (max 150 characters)\",
   }
 
-  Return ONLY the JSON array, no additional text.
   Recommend 3 movies maximum.
+  Don’t recommend any item more than once, even if I ask the question again later.
+  Return ONLY the JSON array, no additional text.
 "
 
 class ChatsController < ApplicationController
@@ -48,7 +49,7 @@ class ChatsController < ApplicationController
       @message = @chat.messages.create!(role: "user", content: @user_message_content)
 
       # Appel du LLM
-      @ruby_llm_chat = RubyLLM.chat
+      build_conversation_history
       response = @ruby_llm_chat.with_instructions(SYSTEM_PROMPT).ask(@message.content)
 
       # variable stockant la version enrichie de la réponse avec l'image du movie
@@ -67,6 +68,13 @@ class ChatsController < ApplicationController
   end
 
   private
+
+  def build_conversation_history
+    @ruby_llm_chat = RubyLLM.chat
+    @chat.messages.each do |message|
+      @ruby_llm_chat.add_message(role: message.role, content: message.content)
+    end
+  end
 
   def extract_recommendations_from_last_message
     last_assistant_message = @chat.messages.where(role: "assistant").last
