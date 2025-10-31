@@ -1,46 +1,69 @@
-<div class="container mt-5" style="max-width: 1200px; margin: 0 auto;">
-  <header class="back-button return_to">
-    <i class="fas fa-arrow-left"></i>
-    <%= link_to "Back to Movie Search", "javascript:history.back()" %>
+<div class="movie-detail-container" style="max-width: 1200px; margin: 0 auto;">
+  <!-- Back Button -->
+  <header class="back-button">
+    <%= link_to "javascript:history.back()" do %>
+      <i class="fas fa-arrow-left"></i>
+      <span>Back to Movie Search</span>
+    <% end %>
   </header>
 
-  <div class="movie_card">
-    <div class="row g-0">
-      <!-- Affiche du film -->
-      <div class="col-md-4">
-        <% if @movie.img_url.present? %>
-          <%= image_tag @movie.img_url, alt: @movie.title, class: "img-fluid rounded-start" %>
-        <% else %>
-          <div style="width: 100%; height: 500px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center;
-        justify-content: center; color: white; font-size: 2rem;">
-            🎬 No Poster
-          </div>
-        <% end %>
-      </div>
-
-      <!-- Infos du film -->
-      <div class="col-md-8">
-        <div class="movie_text">
-          <h2 class="card-title mb-3"><%= @movie.title %> (<%= @movie.year %>)</h2>
-
-          <p class="mb-1"><strong>Director:</strong> <%= @movie.director %></p>
-          <p class="mb-1"><strong>Genre:</strong> <%= @movie.genre %></p>
-          <p class="mb-1"><strong>Country:</strong> <%= @movie.country %></p>
-          <p class="mb-1"><strong>Ranking:</strong> <%= @movie.rank %></p>
-
-          <hr>
-
-          <p class="card-text"><%= simple_format(@movie.description) %></p>
-
+  <!-- Movie Hero Section -->
+  <div class="movie-hero">
+    <!-- Movie Poster -->
+    <div class="movie-poster">
+      <% if @movie.img_url.present? %>
+        <%= image_tag @movie.img_url, alt: @movie.title %>
+      <% else %>
+        <div class="placeholder-poster">
+          <i class="fas fa-film"></i>
+          <p>No Poster Available</p>
         </div>
-      </div>
+      <% end %>
     </div>
-  </div>
 
-          <% if @movie.system_prompt.present? %>
-            <div class="card original_prompt">
-              <strong>Original prompt:</strong> <%= @movie.system_prompt %>
+    <!-- Movie Details -->
+    <div class="movie-details">
+      <!-- Title -->
+      <h1><%= @movie.title %></h1>
+
+      <!-- Meta Info (Year, Genre, Country) -->
+      <div class="movie-meta">
+        <span class="year"><%= @movie.year %></span>
+        <span class="separator">•</span>
+        <span class="genre"><%= @movie.genre %></span>
+        <% if @movie.country.present? %>
+          <span class="separator">•</span>
+          <span class="country"><%= @movie.country %></span>
+        <% end %>
+        <span class="separator">•</span>
+        <span class="director">By <%= @movie.director %></span>
+      </div>
+
+      <!-- Info Grid (Ranking) -->
+        <div class="movie-meta"></div>
+          <% if @movie.rank.present? %>
+            <div class="movie-info-grid">
+              <div class="info-item"></div>
             </div>
           <% end %>
 
+      <!-- Description -->
+      <div class="movie-description">
+        <p><%= simple_format(@movie.description) %></p>
+      </div>
+
+<%#       <!-- Action Buttons -->
+      <div class="movie-actions">
+        <%= link_to "Remove from my List", "#", class: "btn-add-watchlist" %>
+      </div>
+    </div>
+  </div> 
+
+  <!-- Original Prompt (if exists) -->
+  <% if @movie.system_prompt.present? %>
+    <div class="original-prompt-section">
+      <h3><i class="fas fa-robot"></i> AI Generation Prompt</h3>
+      <p><%= @movie.system_prompt %></p>
+    </div>
+  <% end %>
 </div>

@@ -1,12 +1,276 @@
-.movie_card {
-background: $netflix-dark-grey;
+// =========================
+// === MOVIE DETAIL PAGE ===
+// =========================
+
+.movie-detail-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem 3rem;
+  min-height: 100vh;
+  background: $netflix-dark-grey;
 }
 
-.movie_text {
-justify-content: space-between;
+// === MOVIE HERO SECTION ===
+.movie-hero {
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  gap: 3rem;
+  margin-top: 2rem;
+
+  // Movie Poster
+  .movie-poster {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .placeholder-poster {
+      width: 100%;
+      height: 600px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: $netflix-white;
+
+      i {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        opacity: 0.7;
+      }
+
+      p {
+        font-size: 1.2rem;
+        opacity: 0.7;
+        margin: 0;
+      }
+    }
+  }
+
+  // Movie Details (Right Side)
+  .movie-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      color: $netflix-white;
+      margin: 0;
+      line-height: 1.2;
+      border-left: 4px solid $netflix-red;
+      padding-left: 1rem;
+    }
+
+    // Meta Info (Year, Genre, Country)
+    .movie-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.7);
+      padding-left: 1rem;
+
+      .year {
+        font-weight: 600;
+        color: $netflix-white;
+      }
+
+      .separator {
+        color: rgba(255, 255, 255, 0.3);
+      }
+
+      .genre,
+      .country {
+        color: rgba(255, 255, 255, 0.8);
+      }
+    }
+
+    // Info Grid (Director, Ranking)
+    .movie-info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      padding: 1.5rem;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+
+      .info-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+
+        .label {
+          font-size: 0.85rem;
+          color: rgba(255, 255, 255, 0.5);
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          font-weight: 500;
+        }
+
+        .value {
+          font-size: 1.1rem;
+          color: $netflix-white;
+          font-weight: 500;
+
+          &.rating {
+            color: $netflix-red;
+
+            i {
+              margin-right: 0.25rem;
+            }
+          }
+        }
+      }
+    }
+
+    // Description
+    .movie-description {
+      padding: 1.5rem;
+      background: rgba(255, 255, 255, 0.02);
+      border-left: 3px solid rgba(229, 9, 20, 0.5);
+      border-radius: 4px;
+
+      p {
+        font-size: 1.05rem;
+        line-height: 1.7;
+        color: rgba(255, 255, 255, 0.85);
+        margin: 0;
+      }
+    }
+
+    // Action Buttons
+    .movie-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: auto;
+
+      .btn-add-watchlist {
+        padding: 1rem 2rem;
+        background: $netflix-red;
+        border: none;
+        color: $netflix-white;
+        font-size: 1rem;
+        font-weight: 600;
+        border-radius: 4px;
+        text-decoration: none;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        flex: 1;
+
+        &:hover {
+          background: $netflix-dark-red;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(229, 9, 20, 0.4);
+        }
+      }
+
+      .btn-secondary {
+        padding: 1rem 2rem;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: $netflix-white;
+        font-size: 1rem;
+        font-weight: 600;
+        border-radius: 4px;
+        text-decoration: none;
+        text-align: center;
+        transition: all 0.2s ease;
+        flex: 1;
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.2);
+          border-color: rgba(255, 255, 255, 0.5);
+        }
+      }
+    }
+  }
 }
 
-.original_prompt {
-display: flex;
-margin:30px
+// === ORIGINAL PROMPT SECTION ===
+.original-prompt-section {
+  margin-top: 3rem;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+
+  h3 {
+    font-size: 1.2rem;
+    color: $netflix-white;
+    margin: 0 0 1rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    i {
+      color: $netflix-red;
+    }
+  }
+
+  p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+    font-style: italic;
+  }
+}
+
+// =========================
+// === RESPONSIVE =========
+// =========================
+@media (max-width: 992px) {
+  .movie-detail-container {
+    padding: 2rem 1.5rem;
+  }
+
+  .movie-hero {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+
+    .movie-poster {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .movie-details {
+      h1 {
+        font-size: 2.5rem;
+      }
+    }
+  }
+
+  .movie-actions {
+    flex-direction: column;
+
+    .btn-add-watchlist,
+    .btn-secondary {
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .movie-hero {
+    .movie-details {
+      h1 {
+        font-size: 2rem;
+      }
+
+      .movie-info-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  }
 }
