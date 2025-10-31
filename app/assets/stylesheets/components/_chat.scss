@@ -1,12 +1,238 @@
-// === FORMULAIRE =========
-.formulaire {
-  background: rgba(255, 255, 255, 0.534);
-  box-shadow: 0 2px 8px rgba(108, 107, 107, 0.1);
-  border-radius: 8px;
-  padding: 1rem;
-  max-width: 800px;
-  margin: 1.5rem auto;
+// =========================
+// === INDEX LAYOUT ========
+// =========================
+.index-layout {
+  display: flex;
+  min-height: calc(100vh - 60px); // Adjust based on navbar height
+  background: $netflix-dark-grey;
 }
+
+// === PREVIOUS SEARCHES =========
+
+.previous-searches-sidebar {
+  width: 300px;
+  background: $netflix-dark-grey;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 2rem 1.5rem;
+  overflow-y: auto;
+
+  .sidebar-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    color: $netflix-white;
+
+    i {
+      font-size: 1.2rem;
+      color: $netflix-white;
+    }
+
+    h3 {
+      font-size: 1rem;
+      font-weight: 400;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.7);
+    }
+  }
+
+  .searches-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .search-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border-left: 3px solid transparent;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-left-color: $netflix-red;
+      transform: translateX(4px);
+
+      i {
+        transform: translateX(4px);
+      }
+    }
+
+    .search-item-content {
+      flex: 1;
+
+      .search-title {
+        color: $netflix-white;
+        font-size: 0.95rem;
+        font-weight: 400;
+        margin-bottom: 0.25rem;
+      }
+
+      .search-date {
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 0.8rem;
+      }
+    }
+
+    i {
+      color: rgba(255, 255, 255, 0.3);
+      font-size: 0.8rem;
+      transition: transform 0.2s ease;
+    }
+  }
+
+}
+
+// === FORM =========
+
+.main-content {
+  flex: 1;
+  padding: 3rem 4rem;
+  overflow-y: auto;
+  background: $netflix-dark-grey !important;
+
+  .form-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: $netflix-dark-grey !important;
+  }
+
+  .form-header {
+    margin-bottom: 3rem;
+
+    h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      color: $netflix-white;
+      margin-bottom: 0.5rem;
+      border-left: 4px solid $netflix-red;
+      padding-left: 1rem;
+    }
+
+    .form-subtitle {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 1.1rem;
+      margin: 0;
+      padding-left: 1rem;
+    }
+  }
+}
+
+.form-container {
+  form,
+  .simple_form {
+    background: $netflix-dark-grey !important;
+  }
+
+  .form-group,
+  .input,
+  .string,
+  .select,
+  .text,
+  .email,
+  .number,
+  div[class*="input"] {
+    background: transparent !important;
+  }
+
+  div {
+    background: transparent !important;
+  }
+}
+
+form {
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+
+  label {
+    color: $netflix-white;
+    font-size: 0.95rem;
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    color: $netflix-white !important;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    appearance: none;
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    &:focus {
+      outline: none;
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+  }
+
+  .length-button-wrapper {
+  display: inline-block;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+
+    input[type="radio"] {
+      display: none;
+    }
+
+    label {
+      display: inline-block;
+      padding: 0.75rem 1.5rem !important;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin: 0;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.2);
+      }
+    }
+
+    input[type="radio"]:checked + label {
+      background: $netflix-red !important;
+      border-color: $netflix-red !important;
+      color: $netflix-white;
+    }
+  }
+
+  .btn-find-movie {
+    width: 100%;
+    padding: 1rem;
+    background: $netflix-red;
+    color: $netflix-white;
+    border: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 2rem;
+
+    &:hover {
+      background: $netflix-dark-red;
+    }
+  }
+}
+
 
 // === CHAT SECTION =======
 .chat_section {
@@ -142,7 +368,7 @@
   margin: 2rem auto;
 }
 
-.watchlist_container_chat_index {
+/* /* .watchlist_container_chat_index {
   display: flex;
   flex-direction: column;
   color: black;
@@ -153,9 +379,9 @@
   border-radius: 8px;
   max-width: 30rem;
   padding: 1rem;
-  transition: box-shadow 0.2s ease;
+  transition: box-shadow 0.2s ease; */
 
-  img {
+/*   img {
     width: 100%;
     height: 250px;
     object-fit: contain;
@@ -180,7 +406,7 @@
     border-radius: 6px;
     font-weight: 500;
   }
-}
+} */
 
 // =========================
 // === RESPONSIVE =========
