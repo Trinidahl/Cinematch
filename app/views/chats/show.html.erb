@@ -9,6 +9,12 @@
       <h1><%= @chat.title %></h1>
     </div>
 
+    <div>
+      <%= link_to "Delete this watchlist", chat_path,
+      data: { turbo_method: :delete, turbo_confirm: "do you want to delete this watchlist ?" },
+      class: "btn btn-outline-danger delete_button" %>
+    </div>
+
     <!-- 1️⃣ Movie suggestions -->
     <% if @movies.any? %>
       <h5 class="card-title fw-bold mb-4">Saved in your List</h5>

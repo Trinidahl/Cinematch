@@ -233,6 +233,14 @@ form {
   }
 }
 
+// === Delete_button===
+.delete_button {
+  display: inline-flex;
+  padding: 0.75rem 1.5rem;
+  text-decoration: none;
+  font-size: 0.95rem;
+  margin-bottom: 2rem;
+}
 // === CHAT HEADER ===
 
 .back-button {
