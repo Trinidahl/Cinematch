@@ -19,7 +19,10 @@ class MessagesController < ApplicationController
       # Crée SEULEMENT le message assistant
       @chat.messages.create!(role: "assistant", content: enriched_response)
 
-      redirect_to chat_path(@chat)
+      respond_to do |format|
+        format.turbo_stream # renders `app/views/messages/create.turbo_stream.erb`
+        format.html { redirect_to chat_path(@chat) }
+      end
 
     else
       # En cas d'erreur on redirige avec un message
