@@ -39,6 +39,12 @@ class ChatsController < ApplicationController
   def new
   end
 
+  def destroy
+    @chat = Chat.find(params[:id])
+    @chat.destroy
+    redirect_to chats_path
+  end
+
   def create
     # Crée le chat
     @chat = current_user.chats.build(chat_params)
