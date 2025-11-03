@@ -52,12 +52,10 @@
         <p><%= simple_format(@movie.description) %></p>
       </div>
 
-<%#       <!-- Action Buttons -->
-      <div class="movie-actions">
-        <%= link_to "Remove from my List", "#", class: "btn-add-watchlist" %>
-      </div>
+      <!-- Action Buttons -->
+
     </div>
-  </div> 
+  </div>
 
   <!-- Original Prompt (if exists) -->
   <% if @movie.system_prompt.present? %>

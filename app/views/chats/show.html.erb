@@ -16,22 +16,28 @@
     </div>
 
     <!-- 1️⃣ Movie suggestions -->
-    <% if @movies.any? %>
+    <% if @recommendations.any? %>
       <h5 class="card-title fw-bold mb-4">Saved in your List</h5>
       <div class="movie-suggestions mb-5">
-        <% @movies.each do |movie| %>
+        <% @recommendations.each do |recommendation| %>
           <div class="watchlist_container_chat_index">
-            <% if movie.img_url.present? %>
-              <%= image_tag movie.img_url, alt: movie.title %>
+            <% if recommendation.movie.img_url.present? %>
+            <div class="movie-img" style="background-image: url(<%=recommendation.movie.img_url%>)">
+              <%= link_to  chat_recommendation_path(@chat, recommendation),
+              data: { turbo_method: :delete, turbo_confirm: "do you want to delete this watchlist ?" } do %>
+                <i class="fa-solid fa-trash"></i>
+              <% end %>
+            </div>
             <% else %>
               <div style="height: 250px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem;">
                 🎬
               </div>
             <% end %>
-            <h5><%= movie.title %></h5>
-            <p><%= movie.description %></p>
-            <%= link_to "See movie details", movie_path(movie), class: "btn btn-primary" %>
-          </div>
+            <h5><%= recommendation.movie.title %></h5>
+            <p><%= recommendation.movie.description %></p>
+            <%= link_to "See movie details", movie_path(recommendation.movie), class: "btn btn-primary" %>
+
+           </div>
         <% end %>
       </div>
     <% end %>

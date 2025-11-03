@@ -32,6 +32,7 @@ class ChatsController < ApplicationController
     @chat = Chat.find(params[:id])
     @movies = @chat.movies.where(recommendations: { unchosen: false })
     @messages = @chat.messages.order(created_at: :asc)
+    @recommendations = @chat.recommendations.includes(:movie)
     # récupère les dernières recommendations
     @recommended_movies = extract_recommendations_from_last_message
   end
