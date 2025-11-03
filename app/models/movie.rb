@@ -3,7 +3,7 @@
 # require 'cloudinary'
 
 class Movie < ApplicationRecord
-  has_many :recommendations
+  has_many :recommendations, dependent: :destroy
   has_many :chats, through: :recommendations
   validates :title, uniqueness: true
 

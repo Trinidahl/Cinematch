@@ -10,13 +10,13 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
 
-  resources :chats, only: %i[index show create] do
+  resources :chats, only: %i[index show create destroy] do
     resources :messages, only: %i[create index]
-    resources :recommendations, only: %i[create]
+    resources :recommendations, only: %i[create destroy]
   end
 
-  resources :movies, only: %i[new create index show]
-  resources :chats, only: %i[destroy]
+  resources :movies, only: %i[new create index show destroy]
+
   # Chats resources will be used by:
   # 1 - INDEX via the homepage (logged-in)
   #   if not logged in, the user only sees the homepage (pages#home) without their chat history

@@ -28,4 +28,16 @@ class RecommendationsController < ApplicationController
     # 4. Rediriger avec un message de succès
     redirect_to chat_path(@chat), notice: "Movie saved successfully!"
   end
+
+  def destroy
+    @recommendation = @chat.recommendations.find(params[:id])
+    @recommendation.destroy
+    redirect_to chat_path(@chat), notice: "Movie removed from this chat."
+  end
+
+  private
+
+  def set_chat
+    @chat = Chat.find(params[:chat_id])
+  end
 end

@@ -274,3 +274,24 @@
     }
   }
 }
+
+.movie-img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 250px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  padding: 1rem;
+  font-size: 5rem;
+  a {
+    visibility: hidden;
+  }
+}
+
+.watchlist_container_chat_index:hover {
+  .movie-img a{
+     visibility: visible;
+  }
+}
