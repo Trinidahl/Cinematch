@@ -1,0 +1,50 @@
+ <% messages.each do |message| %>
+  <% if message.role == "assistant" %>
+    <div class="d-flex mb-3">
+      <div class="assistant_messages">
+        <% json_match = message.content.match(/\[.*\]/m) %>
+        <% if json_match %>
+          <% begin %>
+            <% movies_data = JSON.parse(json_match[0]) %>
+            <% if movies_data.is_a?(Array) && movies_data.any? %>
+              <p class="mb-2"><strong>We think you may like these movies:</strong></p>
+              <ul class="movie-recommendations">
+                <% movies_data.each do |m| %>
+                  <li class="movie-card">
+                    <% if m['image_url'].present? && m['image_url'] != 'N/A' %>
+                      <%= image_tag m['image_url'], alt: m['title'] %>
+                    <% end %>
+                    <div class="movie-info">
+                      <strong><%= m['title'] %></strong>
+                      <small>(<%= m['year'] %>)</small>
+                      <ul>
+                        <li><%= m['description'] %></li>
+                      </ul>
+                    </div>
+                    <%= button_to "Save to My List",
+                      chat_recommendations_path(@chat),
+                      method: :post,
+                      params: { movie_data: m.to_json },
+                      class: "btn" %>
+                  </li>
+                <% end %>
+              </ul>
+            <% else %>
+              <div style="white-space: pre-wrap; line-height: 1.3;"><%= message.content.strip %></div>
+            <% end %>
+          <% rescue JSON::ParserError %>
+            <div style="white-space: pre-wrap; line-height: 1.3;"><%= message.content.strip %></div>
+          <% end %>
+        <% else %>
+          <div style="white-space: pre-wrap; line-height: 1.3;"><%= message.content.strip %></div>
+        <% end %>
+      </div>
+    </div>
+  <% else %>
+    <div class="d-flex justify-content-end mb-3">
+      <div class="bg-primary chat_user_message">
+        <%= message.content.strip %>
+      </div>
+    </div>
+  <% end %>
+<% end %>

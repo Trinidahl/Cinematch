@@ -72,70 +72,12 @@
     <h5 class="card-title fw-bold mb-4">Keep discussing with your movie assistant to get other suggestions</h5>
       <div class="chat_body mb-4">
         <div class="chat_section">
-          <div class="chat_container mt-4 p-3">
+          <div id="messages" class="chat_container mt-4 p-3">
+            <%= render "chats/messages", messages: @chat.messages %>
+          </div>
 
-          <% @messages.each do |message| %>
-            <% if message.role == "assistant" %>
-              <div class="d-flex mb-3">
-                <div class="assistant_messages">
-                  <% json_match = message.content.match(/\[.*\]/m) %>
-                  <% if json_match %>
-                    <% begin %>
-                      <% movies_data = JSON.parse(json_match[0]) %>
-                      <% if movies_data.is_a?(Array) && movies_data.any? %>
-                        <p class="mb-2"><strong>We think you may like these movies:</strong></p>
-                        <ul class="movie-recommendations">
-                          <% movies_data.each do |m| %>
-                            <li class="movie-card">
-                              <% if m['image_url'].present? && m['image_url'] != 'N/A' %>
-                                <%= image_tag m['image_url'], alt: m['title'] %>
-                              <% end %>
-                              <div class="movie-info">
-                                <strong><%= m['title'] %></strong>
-                                <small>(<%= m['year'] %>)</small>
-                                <ul>
-                                  <li><%= m['description'] %></li>
-                                </ul>
-                              </div>
-                              <%= button_to "Save to My List",
-                                chat_recommendations_path(@chat),
-                                method: :post,
-                                params: { movie_data: m.to_json },
-                                class: "btn" %>
-                            </li>
-                          <% end %>
-                        </ul>
-                      <% else %>
-                        <div style="white-space: pre-wrap; line-height: 1.3;"><%= message.content.strip %></div>
-                      <% end %>
-                    <% rescue JSON::ParserError %>
-                      <div style="white-space: pre-wrap; line-height: 1.3;"><%= message.content.strip %></div>
-                    <% end %>
-                  <% else %>
-                    <div style="white-space: pre-wrap; line-height: 1.3;"><%= message.content.strip %></div>
-                  <% end %>
-                </div>
-              </div>
-            <% else %>
-              <div class="d-flex justify-content-end mb-3">
-                <div class="bg-primary chat_user_message">
-                  <%= message.content.strip %>
-                </div>
-              </div>
-            <% end %>
-          <% end %>
-        </div>
-
-        <div class="chat-input-container">
-          <%= form_with model: [@chat, Message.new], url: chat_messages_path(@chat), class: "d-flex" do |f| %>
-            <%= f.text_field :content,
-              class: "chat-input",
-              placeholder: "Type your message...",
-              autocomplete: "off" %>
-            <%= f.button type: "submit", class: "chat-send-button" do %>
-              <i class="fas fa-paper-plane"></i>
-            <% end %>
-          <% end %>
+        <div id="chat-input" class="chat-input-container">
+          <%= render "chats/form", chat: @chat, message: @message %>
         </div>
         </div>
       </div>

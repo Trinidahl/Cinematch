@@ -1,0 +1,9 @@
+<%= form_with model: [@chat, Message.new], url: chat_messages_path(@chat), class: "d-flex" do |f| %>
+  <%= f.text_field :content,
+    class: "chat-input",
+    placeholder: "Type your message...",
+    autocomplete: "off" %>
+  <%= f.button type: "submit", class: "chat-send-button" do %>
+    <i class="fas fa-paper-plane"></i>
+  <% end %>
+<% end %>
