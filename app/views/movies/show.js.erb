@@ -1,0 +1,6 @@
+// Charger le contenu dans la modale
+document.getElementById('movieModalContent').innerHTML = '<%= j render("movies/details") %>';
+
+// Ouvrir la modale
+const movieModal = new bootstrap.Modal(document.getElementById('movieModal'));
+movieModal.show();
