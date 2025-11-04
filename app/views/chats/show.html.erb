@@ -1,4 +1,23 @@
-  <div class="chat-container">
+<!-- VERSION FINALE AVEC FIX DU BACKDROP -->
+<div class="chat-container">
+
+    <!-- MODALE POUR LES DÉTAILS DU FILM -->
+    <div class="modal fade" id="movieModal" tabindex="-1">
+      <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content bg-dark text-white">
+          <div class="modal-header border-secondary">
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body" id="movieModalContent">
+            <div class="text-center py-5">
+              <div class="spinner-border text-danger" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <header class="back-button return_to">
       <i class="fas fa-arrow-left"></i>
@@ -10,7 +29,7 @@
     </div>
 
     <div>
-      <%= link_to "Delete this watchlist", chat_path,
+      <%= link_to "Delete this search", chat_path,
       data: { turbo_method: :delete, turbo_confirm: "do you want to delete this watchlist ?" },
       class: "btn btn-outline-danger delete_button" %>
     </div>
@@ -35,14 +54,21 @@
             <% end %>
             <h5><%= recommendation.movie.title %></h5>
             <p><%= recommendation.movie.description %></p>
-            <%= link_to "See movie details", movie_path(recommendation.movie), class: "btn btn-primary" %>
+
+            <!-- BOUTON POUR OUVRIR LA MODALE -->
+            <button
+              class="btn btn-primary movie-detail-btn"
+              data-movie-id="<%= recommendation.movie.id %>"
+              type="button">
+              See movie details
+            </button>
 
            </div>
         <% end %>
       </div>
     <% end %>
 
-    <!-- 2️⃣ Chat section (horizontal under movie suggestions) -->
+    <!-- 2️⃣ Chat section -->
     <h5 class="card-title fw-bold mb-4">Keep discussing with your movie assistant to get other suggestions</h5>
       <div class="chat_body mb-4">
         <div class="chat_section">
@@ -52,7 +78,6 @@
             <% if message.role == "assistant" %>
               <div class="d-flex mb-3">
                 <div class="assistant_messages">
-                  <%# Check for JSON with movie recommendations %>
                   <% json_match = message.content.match(/\[.*\]/m) %>
                   <% if json_match %>
                     <% begin %>
@@ -108,7 +133,7 @@
               placeholder: "Type your message...",
               autocomplete: "off" %>
             <%= f.button type: "submit", class: "chat-send-button" do %>
-              <i class="fas fa-paper-plane"></i> <!-- ou le contenu de votre bouton -->
+              <i class="fas fa-paper-plane"></i>
             <% end %>
           <% end %>
         </div>
@@ -116,4 +141,101 @@
       </div>
     </div>
 </div>
-</div>
+
+<!-- JAVASCRIPT FINAL AVEC FIX DU BACKDROP -->
+<script>
+  console.log("🎬 Movie modal script loaded!");
+
+  let currentModal = null;
+
+  function loadMovieDetails(movieId) {
+    console.log("Loading movie ID:", movieId);
+
+    const modalElement = document.getElementById('movieModal');
+    const modalContent = document.getElementById('movieModalContent');
+
+    // Afficher le spinner
+    modalContent.innerHTML = `
+      <div class="text-center py-5">
+        <div class="spinner-border text-danger" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    `;
+
+    // Créer et ouvrir la modale
+    currentModal = new bootstrap.Modal(modalElement);
+    currentModal.show();
+
+    // Charger les données via AJAX
+    fetch(`/movies/${movieId}`, {
+      headers: {
+        'Accept': 'text/javascript',
+        'X-Requested-With': 'XMLHttpRequest'
+      }
+    })
+    .then(response => {
+      console.log("Response status:", response.status);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(script => {
+      console.log("Script received, executing...");
+      eval(script);
+    })
+    .catch(error => {
+      console.error('Error loading movie:', error);
+      modalContent.innerHTML = `
+        <div class="alert alert-danger">
+          <h4>Error loading movie details</h4>
+          <p>${error.message}</p>
+        </div>
+      `;
+    });
+  }
+
+  // ✅ FIX DU BACKDROP - Nettoyer quand la modale se ferme
+  function cleanupModal() {
+    // Supprimer tous les backdrops
+    document.querySelectorAll('.modal-backdrop').forEach(backdrop => {
+      backdrop.remove();
+    });
+
+    // Réactiver le scroll du body
+    document.body.classList.remove('modal-open');
+    document.body.style.overflow = '';
+    document.body.style.paddingRight = '';
+  }
+
+  // Setup event listeners
+  function setupMovieButtons() {
+    const buttons = document.querySelectorAll('.movie-detail-btn');
+    console.log("Found movie buttons:", buttons.length);
+
+    buttons.forEach(button => {
+      button.addEventListener('click', function(e) {
+        e.preventDefault();
+        const movieId = this.dataset.movieId;
+        loadMovieDetails(movieId);
+      });
+    });
+
+    // ✅ Écouter l'événement de fermeture de la modale
+    const modalElement = document.getElementById('movieModal');
+    if (modalElement) {
+      modalElement.addEventListener('hidden.bs.modal', function () {
+        console.log("Modal closed, cleaning up...");
+        cleanupModal();
+      });
+    }
+  }
+
+  // Initialize
+  document.addEventListener('DOMContentLoaded', setupMovieButtons);
+  document.addEventListener('turbo:load', setupMovieButtons);
+
+  // ✅ Cleanup avant de quitter la page
+  window.addEventListener('beforeunload', cleanupModal);
+</script>

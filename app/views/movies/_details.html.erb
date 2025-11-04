@@ -1,0 +1,112 @@
+<div class="movie-detail-container">
+  <!-- Movie Hero Section -->
+  <div class="movie-hero">
+    <!-- Movie Poster -->
+    <div class="movie-poster">
+      <% if @movie.img_url.present? %>
+        <%= image_tag @movie.img_url, alt: @movie.title, class: "img-fluid rounded" %>
+      <% else %>
+        <div class="placeholder-poster">
+          <i class="fas fa-film fa-5x text-muted"></i>
+          <p class="mt-3">No Poster Available</p>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Movie Details -->
+    <div class="movie-details">
+      <!-- Title -->
+      <h1 class="mb-3"><%= @movie.title %></h1>
+
+      <!-- Meta Info (Year, Genre, Country) -->
+      <div class="movie-meta mb-4">
+        <span class="year"><%= @movie.year %></span>
+        <span class="separator mx-2">•</span>
+        <span class="genre"><%= @movie.genre %></span>
+        <% if @movie.country.present? %>
+          <span class="separator mx-2">•</span>
+          <span class="country"><%= @movie.country %></span>
+        <% end %>
+        <span class="separator mx-2">•</span>
+        <span class="director">By <%= @movie.director %></span>
+      </div>
+
+      <!-- Info Grid (Ranking) -->
+      <% if @movie.rank.present? %>
+        <div class="movie-info-grid mb-4">
+          <div class="info-item">
+            <span class="badge bg-danger">Rank: <%= @movie.rank %></span>
+          </div>
+        </div>
+      <% end %>
+
+      <!-- Description -->
+      <div class="movie-description">
+        <p class="lead"><%= simple_format(@movie.description) %></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Original Prompt (if exists) -->
+  <% if @movie.system_prompt.present? %>
+    <div class="original-prompt-section mt-5 p-4 bg-secondary rounded">
+      <h3 class="mb-3"><i class="fas fa-robot"></i> AI Generation Prompt</h3>
+      <p class="mb-0"><%= @movie.system_prompt %></p>
+    </div>
+  <% end %>
+</div>
+
+<style>
+  .movie-hero {
+    display: flex;
+    gap: 3rem;
+    margin-bottom: 2rem;
+  }
+
+  .movie-poster {
+    flex: 0 0 300px;
+  }
+
+  .movie-poster img {
+    width: 100%;
+    height: auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  }
+
+  .placeholder-poster {
+    width: 300px;
+    height: 450px;
+    background: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+  }
+
+  .movie-details {
+    flex: 1;
+  }
+
+  .movie-meta {
+    color: #aaa;
+    font-size: 1.1rem;
+  }
+
+  .movie-description {
+    margin-top: 1.5rem;
+    line-height: 1.8;
+  }
+
+  @media (max-width: 768px) {
+    .movie-hero {
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .movie-poster {
+      flex: 0 0 auto;
+      align-self: center;
+    }
+  }
+</style>

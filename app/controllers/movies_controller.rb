@@ -12,7 +12,11 @@ class MoviesController < ApplicationController
 
   def show
     @movie = Movie.find(params[:id])
-    # @chat  = Chat.find(params[:chat_id]) if params[:chat_id]  (à ajouter après ajout du chat)
+
+    respond_to do |format|
+      format.html # Affichage normal de la page
+      format.js   # Réponse JavaScript pour la modale
+    end
   end
 
   def index
